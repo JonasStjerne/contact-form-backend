@@ -5,13 +5,16 @@ const cors = require('cors');
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: true }));
 
 //Use axios to sent requests
 const axios = require('axios')
 
 //Initiate firebase functions
 const functions = require("firebase-functions");
+const admin = require("firebase-admin");
+
+admin.initializeApp();
 
 //Use express validator for sanitization and validation
 const { body,validationResult } = require('express-validator');
@@ -28,8 +31,8 @@ const mailjet = require ('node-mailjet')
 const apiEndpointReCap = 'https://www.google.com/recaptcha/api/siteverify?secret=6LfMGWMeAAAAANowu1Ld1ByVKKAJjwvC0NJFkBNt&response=';
 
 
-const errMsg = "Error sending message. Please contact me directly on j.stjerne@live.dk";
-const sucMsg = "Thank you for your message. I will contact you ASAP";
+const errMsg = {"errors" : [{"msg" : "Error sending message. Please contact me directly on j.stjerne@live.dk"}]};
+const sucMsg = {"errors" : [{"msg" : "Thank you for your message. I will contact you ASAP"}]};
 
 //Endpoint for sending mail
 app.post('/sendMessage', 
