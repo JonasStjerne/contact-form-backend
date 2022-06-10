@@ -1,7 +1,7 @@
+require('dotenv').config()
 //Use Express
 const express = require('express');
 const cors = require('cors');
-
 const app = express();
 
 app.use(express.json());
@@ -26,7 +26,7 @@ app.listen(3000)
 
 //Set connection to mailjet
 const mailjet = require ('node-mailjet')
-.connect('f1b41b4797cfcff9d6c5a3baae714f6c', 'f9594f8bd0398db5c31ac20a755dc253')
+.connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVAT)
 
 const apiEndpointReCap = 'https://www.google.com/recaptcha/api/siteverify?secret=6LfMGWMeAAAAANowu1Ld1ByVKKAJjwvC0NJFkBNt&response=';
 
@@ -36,7 +36,7 @@ const sucMsg = {"errors" : [{"msg" : "Thank you for your message. I will contact
 
 //Endpoint for sending mail
 app.post('/sendMessage', 
-  body('name', 'Please provide a name').isLength({ min: 3 }).escape(),
+  body('name', 'Please provide a name').isLength({ min: 2 }).escape(),
   body('email', 'Please provide a valid email').isEmail().normalizeEmail(),
   body('message', 'Please write a message').not().isEmpty().trim().escape(),
   body('g-token', errMsg).not().isEmpty().trim().escape().custom(value => {
