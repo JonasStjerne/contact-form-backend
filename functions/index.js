@@ -28,7 +28,7 @@ app.listen(3000)
 const mailjet = require ('node-mailjet')
 .connect(process.env.MJ_APIKEY_PUBLIC, process.env.MJ_APIKEY_PRIVAT)
 
-const apiEndpointReCap = 'https://www.google.com/recaptcha/api/siteverify?secret=6LfMGWMeAAAAANowu1Ld1ByVKKAJjwvC0NJFkBNt&response=';
+const apiEndpointReCap = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=`;
 
 
 const errMsg = {"errors" : [{"msg" : "Error sending message. Please contact me directly on j.stjerne@live.dk"}]};
